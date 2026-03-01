@@ -1,0 +1,37 @@
+name: deploy CI (Conda)
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      CHAT_MODEL: ${{ secrets.CHAT_MODEL }}
+      EMBEDDING_MODEL: ${{ secrets.EMBEDDING_MODEL }}
+
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Miniconda
+      uses: conda-incubator/setup-miniconda@v3
+      with:
+        python-version: 3.11
+        auto-update-conda: true
+
+    - name: Create conda environment
+      run: |
+        conda create -n novotel-rag python=3.11 -y
+        conda activate novotel-rag
+        pip install -r backend/requirements.txt
+
+    - name: Run test
+      shell: bash -l {0}
+      run: |
+        conda activate novotel-rag
+        python -c "import langchain; print('Conda env OK')"

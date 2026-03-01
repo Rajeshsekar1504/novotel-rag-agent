@@ -10,6 +10,7 @@ from pydantic_settings import BaseSettings
 from pathlib import Path
 from functools import lru_cache
 
+
 # ── Directory References ──────────────────────────────────────────────────────
 # config.py lives at: novotel-rag-agent/backend/config.py
 # parents[0] = backend/
@@ -32,9 +33,10 @@ class Settings(BaseSettings):
     # config.py — find these 3 lines and fix them
 
 
-    CHROMA_PATH: str        = str(Path(__file__).resolve().parents[1] / "chroma_db")
-    DOCS_PATH: str          = str(Path(__file__).resolve().parents[1] / "documents")
-    HASH_REGISTRY_PATH: str = str(Path(__file__).resolve().parents[1] / "hash_registry.json")
+    import os
+    CHROMA_PATH: str        = os.getenv("CHROMA_PATH", "chroma_db")
+    DOCS_PATH: str          = os.getenv("DOCS_PATH", "documents")
+    HASH_REGISTRY_PATH: str = os.getenv("HASH_REGISTRY_PATH", "hash_registry.json")
 
     # ── ChromaDB ──────────────────────────────────────────────────────────────
     COLLECTION_NAME: str = "telecom_support"
