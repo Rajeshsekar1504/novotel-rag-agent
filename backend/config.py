@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     RETRIEVER_LAMBDA: float = 0.7
     RERANKER_TOP_N: int = 3
 
+    # Session  ✅ FIX
+    MAX_HISTORY_TURNS: int = 10
+
     # API
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
